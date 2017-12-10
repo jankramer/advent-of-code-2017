@@ -1,7 +1,7 @@
 module Main where
 
 main = do
-    input <- readFile "inputs/day9.txt"
+    input <- readFile "inputs/day09.txt"
     print $ parse input [] (0,0)
 
 parse :: String -> [String] -> (Int, Int) -> (Int, Int)

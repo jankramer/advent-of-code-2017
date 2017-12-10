@@ -17,7 +17,7 @@ data Program = Program { name :: String
                        } deriving (Show, Eq)
 
 main = do
-    programList <- map parseLine <$> lines <$> readFile "inputs/day7.txt"
+    programList <- map parseLine <$> lines <$> readFile "inputs/day07.txt"
     let tower = buildTower $ Map.fromList $ map (\x -> (name x, x)) programList
     print $ solve  $ tower
     print $ solve' $ tower

@@ -25,7 +25,7 @@ main = do
 
 readInitialAllocation :: IO BlockAllocation
 readInitialAllocation = do
-    numBlocks <- fmap (map read . words) $ readFile "inputs/day6.txt" :: IO [Int]
+    numBlocks <- fmap (map read . words) $ readFile "inputs/day06.txt" :: IO [Int]
     return $ Sequence.mapWithIndex (\i x -> MemoryBank i x) (Sequence.fromList numBlocks)
 
 pushNextReallocation :: ReallocationStack -> ReallocationStack

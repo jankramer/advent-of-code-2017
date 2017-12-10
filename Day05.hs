@@ -4,7 +4,7 @@ import Data.Sequence (Seq)
 import qualified Data.Sequence as Sequence
 
 main = do
-    instructions <- fmap (Sequence.fromList . map read . lines) $ readFile "inputs/day5.txt"
+    instructions <- fmap (Sequence.fromList . map read . lines) $ readFile "inputs/day05.txt"
     print $ countSteps (+1) 0 0 instructions
     print $ countSteps (\x -> if x >= 3 then x - 1 else x + 1) 0 0 instructions
 

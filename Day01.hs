@@ -1,10 +1,10 @@
-module Day1 where
+module Main where
 
 import Data.Char
 import Data.List
 
 main = do
-    input <- readFile "inputs/day1.txt"
+    input <- readFile "inputs/day01.txt"
     print $ solve 1                      (map digitToInt input)
     print $ solve (length input `div` 2) (map digitToInt input)
 

@@ -1,9 +1,9 @@
-module Day2 where
+module Main where
 
 import Data.List
 
 main = do
-    input <- readFile "inputs/day2.txt"
+    input <- readFile "inputs/day02.txt"
     let spreadsheet = map (reverse . sort . map read . words) . lines $ input
     print $ solve rowChecksum1 spreadsheet
     print $ solve rowChecksum2 spreadsheet

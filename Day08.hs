@@ -13,7 +13,7 @@ data Instruction = Instruction Register Operation Condition
 data Condition   = Condition String (Int -> Bool)
 
 main = do
-    instructions   <- (map read) <$> lines <$> readFile "inputs/day8.txt"
+    instructions   <- (map read) <$> lines <$> readFile "inputs/day08.txt"
     let reductions = scanl processInstruction Map.empty instructions
     let maximums   = [foldl max 0 x | x <- reductions, x /= Map.empty]
 

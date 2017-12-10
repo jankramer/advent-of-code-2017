@@ -1,4 +1,4 @@
-module Day3 where
+module Main where
 
 import Data.List
 import Data.Maybe

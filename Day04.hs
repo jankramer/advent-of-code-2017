@@ -1,9 +1,9 @@
-module Day4 where
+module Main where
 
 import Data.List
 
 main = do
-    input <- readFile "inputs/day4.txt"
+    input <- readFile "inputs/day04.txt"
     print $ length $ filter (not . containsDuplicates) . map words $ lines input
     print $ length $ filter (not . containsAnagrams) . map words $ lines input
 
