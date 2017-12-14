@@ -1,15 +1,14 @@
-module Main where
+module Advent.Y2017.Day01 (day01a, day01b) where
 
 import Data.Char
 import Data.List
 
-main = do
-    input <- readFile "inputs/day01.txt"
-    print $ solve 1                      (map digitToInt input)
-    print $ solve (length input `div` 2) (map digitToInt input)
+day01a, day01b :: String -> String
+day01a input = show $ solve (map digitToInt input) 1
+day01b input = show $ solve (map digitToInt input) (length input `div` 2)
 
-solve :: Int -> [Int] -> Int
-solve offset digits = sum . map fst . filter matches . generatePairs offset $ digits
+solve :: [Int] -> Int -> Int
+solve digits offset = sum . map fst . filter matches . generatePairs offset $ digits
 
 generatePairs :: Int -> [a] -> [(a, a)]
 generatePairs offset input  = zip (map getFirstDigit range) (map getSecondDigit range)

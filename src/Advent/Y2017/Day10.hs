@@ -1,23 +1,20 @@
-module Main where
+module Advent.Y2017.Day10 (day10a, day10b, knotHash) where
 
 import Data.Bits        (xor)
 import Data.Char        (ord)
 import Data.List.Split  (splitOn)
 import Text.Printf      (printf)
 
-main = do
-    print $ product $ take 2 result1
-    print $ concat $ map formatHex $ calcHash result2
+day10a, day10b :: String -> String
+day10a input = show $ product $ take 2 $ solve list (map read $ splitOn "," input) 0 0
+day10b input = concat $ map formatHex $ knotHash input
 
-input       = "18,1,0,161,255,137,254,252,14,95,165,33,181,168,2,188"
+knotHash :: String -> [Int]
+knotHash input = calcHash $ solve list lengths 0 0
+    where lengths = concat . replicate 64 $ map ord input ++ [17,31,73,47,23]
+
 listSize    = 256
 list        = [0 .. (listSize-1)]
-
-lengths1    = map read $ splitOn "," input
-result1     = solve list lengths1 0 0
-
-lengths2    = concat . replicate 64 $ map ord input ++ [17,31,73,47,23]
-result2     = solve list lengths2 0 0
 
 solve :: [Int] -> [Int] -> Int -> Int -> [Int]
 solve list []     _   _    = list

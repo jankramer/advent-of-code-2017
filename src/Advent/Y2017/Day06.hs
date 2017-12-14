@@ -1,4 +1,4 @@
-module Main where
+module Advent.Y2017.Day06 (day06a, day06b) where
 
 import              Data.Foldable
 import              Data.Maybe
@@ -17,16 +17,17 @@ instance Ord MemoryBank where
         | valA > valB || (valA == valB && posA < posB) = GT
         | otherwise                                    = LT
 
-main = do
-    initialAllocation <- readInitialAllocation
-    let stack = head $ dropWhile (not . headReoccurs) (iterate pushNextReallocation [initialAllocation])
-    print $ length stack
-    print $ succ $ fromJust $ let (x:xs) = stack in x `elemIndex` xs
+day06a, day06b :: String -> String
+day06a input = show $ length $ stack input
+day06b input = show $ succ $ fromJust $ let (x:xs) = (stack input) in x `elemIndex` xs
 
-readInitialAllocation :: IO BlockAllocation
-readInitialAllocation = do
-    numBlocks <- fmap (map read . words) $ readFile "inputs/day06.txt" :: IO [Int]
-    return $ Sequence.mapWithIndex (\i x -> MemoryBank i x) (Sequence.fromList numBlocks)
+stack :: String -> ReallocationStack
+stack input = head $ dropWhile (not . headReoccurs) (iterate pushNextReallocation [initialAllocation])
+    where initialAllocation = readInitialAllocation input
+
+readInitialAllocation :: String -> BlockAllocation
+readInitialAllocation input = Sequence.mapWithIndex (\i x -> MemoryBank i x) (Sequence.fromList numBlocks)
+    where numBlocks = map read $ words input
 
 pushNextReallocation :: ReallocationStack -> ReallocationStack
 pushNextReallocation all@(current:previousAllocations) = (reallocate current) : all

@@ -1,4 +1,4 @@
-module Main where
+module Advent.Y2017.Day11 (day11a, day11b) where
 
 import Data.List.Split (splitOn)
 
@@ -6,10 +6,9 @@ type Move   = String
 type Vector = [Int]
 origin      = [0,0,0]
 
-main = do
-    moves <- splitOn "," <$> readFile "inputs/day11.txt"
-    print $ solve1 moves
-    print $ solve2 moves
+day11a, day11b :: String -> String
+day11a input = show $ solve1 $ splitOn "," input
+day11b input = show $ solve2 $ splitOn "," input
 
 solve1 :: [Move] -> Int
 solve1 moves = distance origin (foldl move origin moves)

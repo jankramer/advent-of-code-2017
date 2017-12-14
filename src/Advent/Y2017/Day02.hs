@@ -1,15 +1,15 @@
-module Main where
+module Advent.Y2017.Day02 (day02a, day02b) where
 
 import Data.List
 
-main = do
-    input <- readFile "inputs/day02.txt"
-    let spreadsheet = map (reverse . sort . map read . words) . lines $ input
-    print $ solve rowChecksum1 spreadsheet
-    print $ solve rowChecksum2 spreadsheet
+day02a, day02b :: String -> String
+day02a input = show $ solve rowChecksum1 $ buildSpreadsheet input
+day02b input = show $ solve rowChecksum2 $ buildSpreadsheet input
 
 solve :: ([Int] -> Int) -> [[Int]] -> Int
 solve checksumFn spreadsheet = sum . map checksumFn $ spreadsheet
+
+buildSpreadsheet input = map (reverse . sort . map read . words) . lines $ input
 
 rowChecksum1 :: [Int] -> Int
 rowChecksum1 values = head values - last values

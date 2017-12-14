@@ -1,8 +1,8 @@
-module Main where
+module Advent.Y2017.Day09 (day09a, day09b) where
 
-main = do
-    input <- readFile "inputs/day09.txt"
-    print $ parse input [] (0,0)
+day09a, day09b :: String -> String
+day09a input = show $ let (ans, _) = parse input [] (0,0) in ans
+day09b input = show $ let (_, ans) = parse input [] (0,0) in ans
 
 parse :: String -> [String] -> (Int, Int) -> (Int, Int)
 parse [] _ score = score

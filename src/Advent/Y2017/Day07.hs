@@ -1,4 +1,4 @@
-module Main where
+module Advent.Y2017.Day07 (day07a, day07b) where
 
 import Data.Char
 import Data.List
@@ -16,11 +16,12 @@ data Program = Program { name :: String
                        , children :: [String]
                        } deriving (Show, Eq)
 
-main = do
-    programList <- map parseLine <$> lines <$> readFile "inputs/day07.txt"
-    let tower = buildTower $ Map.fromList $ map (\x -> (name x, x)) programList
-    print $ solve  $ tower
-    print $ solve' $ tower
+day07a, day07b :: String -> String
+day07a input = solve $ towerFromInput input
+day07b input = show $ solve' $ towerFromInput input
+
+towerFromInput input = buildTower $ Map.fromList $ map (\x -> (name x, x)) programList
+    where programList = map parseLine $ lines input
 
 solve :: Tower -> String
 solve tower = name $ rootLabel tower

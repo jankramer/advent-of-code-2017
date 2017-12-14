@@ -1,11 +1,10 @@
-module Main where
+module Advent.Y2017.Day04 (day04a, day04b) where
 
 import Data.List
 
-main = do
-    input <- readFile "inputs/day04.txt"
-    print $ length $ filter (not . containsDuplicates) . map words $ lines input
-    print $ length $ filter (not . containsAnagrams) . map words $ lines input
+day04a, day04b :: String -> String
+day04a input = show $ length $ filter (not . containsDuplicates) . map words $ lines input
+day04b input = show $ length $ filter (not . containsAnagrams) . map words $ lines input
 
 containsDuplicates :: [String] -> Bool
 containsDuplicates passwords = (length $ nub passwords) < length passwords

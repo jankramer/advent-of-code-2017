@@ -1,7 +1,11 @@
-module Main where
+module Advent.Y2017.Day03 (day03a, day03b) where
 
 import Data.List
 import Data.Maybe
+
+day03a, day03b :: String -> String
+day03a input = show $ part1 $ read input
+day03b input = show $ part2 $ read input
 
 type SpiralGrid = [Point]
 data Point = Point { x :: Int, y :: Int } deriving (Show, Eq)
@@ -13,11 +17,6 @@ origin' = Square { point = origin, value = 1 }
 
 data Move = Move { direction :: Direction , steps :: Int } deriving (Show)
 data Direction = U | D | R | L deriving (Show, Eq)
-
-main = do
-    let input = 361527
-    print $ part1 input
-    print $ part2 input
 
 part1 :: Int -> Int
 part1 n = manhattanDistance origin (last (take n generateSpiralGrid))

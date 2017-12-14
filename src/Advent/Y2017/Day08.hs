@@ -1,4 +1,4 @@
-module Main where
+module Advent.Y2017.Day08 (day08a, day08b) where
 
 import           Data.Char          (toTitle)
 import           Data.List          (intercalate, maximum)
@@ -12,13 +12,12 @@ data Operation   = Inc Int | Dec Int deriving (Read)
 data Instruction = Instruction Register Operation Condition
 data Condition   = Condition String (Int -> Bool)
 
-main = do
-    instructions   <- (map read) <$> lines <$> readFile "inputs/day08.txt"
-    let reductions = scanl processInstruction Map.empty instructions
-    let maximums   = [foldl max 0 x | x <- reductions, x /= Map.empty]
+day08a, day08b :: String -> String
+day08a input = show $ last $ maximums (map read $ lines input)
+day08b input = show $ maximum $ maximums (map read $ lines input)
 
-    print $ last maximums
-    print $ maximum maximums
+maximums instructions = [foldl max 0 x | x <- (reductions instructions), x /= Map.empty]
+reductions instructions = scanl processInstruction Map.empty instructions
 
 processInstruction :: Registers -> Instruction -> Registers
 processInstruction regs (Instruction key operation condition) =

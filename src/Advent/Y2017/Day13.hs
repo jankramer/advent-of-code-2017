@@ -1,18 +1,17 @@
-module Main where
+module Advent.Y2017.Day13 (day13a, day13b) where
 
 type Firewall = [Layer]
 type Layer    = (Int, Int)
 
-main = do
-    firewall <- map parse <$> lines <$> readFile "inputs/day13.txt"
-    print $ day13a firewall
-    print $ day13b firewall
+day13a, day13b :: String -> String
+day13a input = show $ totalSeverity $ map parse $ lines input
+day13b input = show $ minDelay $ map parse $ lines input
 
-day13a :: Firewall -> Int
-day13a fw = sum [d * r | (d, r) <- fw, scannerAtTop d r]
+totalSeverity :: Firewall -> Int
+totalSeverity fw = sum [d * r | (d, r) <- fw, scannerAtTop d r]
 
-day13b :: Firewall -> Int
-day13b fw = head [delay | delay <- [0..], undetected fw delay]
+minDelay :: Firewall -> Int
+minDelay fw = head [delay | delay <- [0..], undetected fw delay]
 
 scannerAtTop :: Int -> Int -> Bool
 scannerAtTop _ 1 = True
