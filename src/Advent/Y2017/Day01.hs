@@ -1,7 +1,6 @@
 module Advent.Y2017.Day01 (day01a, day01b) where
 
 import Data.Char
-import Data.List
 
 day01a, day01b :: String -> String
 day01a input = show $ solve (map digitToInt input) 1

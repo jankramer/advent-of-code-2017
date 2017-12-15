@@ -47,3 +47,4 @@ solve17 14 'a' = day14a
 solve17 14 'b' = day14b
 solve17 15 'a' = day15a
 solve17 15 'b' = day15b
+solve17 _   _  = error "Not implemented yet"

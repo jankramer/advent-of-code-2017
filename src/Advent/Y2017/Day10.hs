@@ -13,19 +13,22 @@ knotHash :: String -> [Int]
 knotHash input = calcHash $ solve list lengths 0 0
     where lengths = concat . replicate 64 $ map ord input ++ [17,31,73,47,23]
 
-listSize    = 256
+listSize :: Int
+listSize = 256
+
+list :: [Int]
 list        = [0 .. (listSize-1)]
 
 solve :: [Int] -> [Int] -> Int -> Int -> [Int]
-solve list []     _   _    = list
-solve list (y:ys) pos skip = solve newList ys newPos (skip + 1)
-  where newList = go list pos y
+solve l []     _   _    = l
+solve l (y:ys) pos skip = solve newList ys newPos (skip + 1)
+  where newList = go l pos y
         newPos  = (pos + y + skip) `mod` listSize
 
 go :: [Int] -> Int -> Int -> [Int]
-go list pos len = begin ++ end
+go l pos len = begin ++ end
   where (end, begin)    = splitAt (listSize - pos) $ (reverse sublist) ++ rest
-        (sublist, rest) = splitAt len $ take listSize $ drop pos $ cycle list
+        (sublist, rest) = splitAt len $ take listSize $ drop pos $ cycle l
 
 calcHash :: [Int] -> [Int]
 calcHash x

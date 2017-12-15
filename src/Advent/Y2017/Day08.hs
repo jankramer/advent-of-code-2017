@@ -16,7 +16,10 @@ day08a, day08b :: String -> String
 day08a input = show $ last $ maximums (map read $ lines input)
 day08b input = show $ maximum $ maximums (map read $ lines input)
 
+maximums :: [Instruction] -> [Int]
 maximums instructions = [foldl max 0 x | x <- (reductions instructions), x /= Map.empty]
+
+reductions :: [Instruction] -> [Registers]
 reductions instructions = scanl processInstruction Map.empty instructions
 
 processInstruction :: Registers -> Instruction -> Registers
@@ -53,6 +56,8 @@ readComparison "==" = \x y -> (==)  y x
 readComparison "!=" = \x y -> (/=)  y x
 readComparison ">=" = \x y -> (>=)  y x
 readComparison ">"  = \x y -> (>)   y x
+readComparison x    = error $ "Unknown comparison operator: " ++ x
 
 titleCase :: String -> String
+titleCase [] = []
 titleCase (x:xs) = toTitle x : xs

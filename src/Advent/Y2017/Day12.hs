@@ -11,7 +11,7 @@ graph :: String -> Graph
 graph input = let (g, _, _) = graphFromEdges (map parse $ lines input) in g
 
 parse :: String -> (Int, Int, [Int])
-parse line = (id, id, connections)
+parse line = (i, i, connections)
     where (x:xs:_)    = splitOn " <-> " line
           connections = map read $ splitOn "," xs
-          id          = read x
+          i           = read x

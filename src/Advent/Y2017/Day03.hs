@@ -9,10 +9,13 @@ day03b input = show $ part2 $ read input
 
 type SpiralGrid = [Point]
 data Point = Point { x :: Int, y :: Int } deriving (Show, Eq)
+
+origin :: Point
 origin = Point 0 0
 
-type SpiralGrid' = [Square]
 data Square = Square { point :: Point, value :: Int } deriving (Show)
+
+origin' :: Square
 origin' = Square { point = origin, value = 1 }
 
 data Move = Move { direction :: Direction , steps :: Int } deriving (Show)
@@ -31,16 +34,19 @@ applyMove :: [Point] -> Move -> [Point]
 applyMove points move = walk move (last points)
 
 walk :: Move -> Point -> [Point]
-walk move point
-    | d == U = map (\i -> Point { x = (x point)    , y = (y point) + i }) [1..n]
-    | d == D = map (\i -> Point { x = (x point)    , y = (y point) - i }) [1..n]
-    | d == R = map (\i -> Point { x = (x point) + i, y = y point       }) [1..n]
-    | d == L = map (\i -> Point { x = (x point) - i, y = y point       }) [1..n]
+walk move p
+    | d == U = map (\i -> Point { x = (x p)    , y = (y p) + i }) [1..n]
+    | d == D = map (\i -> Point { x = (x p)    , y = (y p) - i }) [1..n]
+    | d == R = map (\i -> Point { x = (x p) + i, y = y p       }) [1..n]
+    | d == L = map (\i -> Point { x = (x p) - i, y = y p       }) [1..n]
+    | otherwise = error "Unable to process move"
     where d = direction move
           n = steps move
 
 generateMoves :: [Move]
 generateMoves = iterate getNextMove initialMove
+
+initialMove :: Move
 initialMove = Move R 1
 
 getNextMove :: Move -> Move
@@ -49,18 +55,20 @@ getNextMove previousMove
     | previousDirection == U = Move L (previousSteps + 1)
     | previousDirection == L = Move D previousSteps
     | previousDirection == D = Move R (previousSteps + 1)
+    | otherwise = error "Unable to process move"
     where
           previousDirection = direction previousMove
           previousSteps     = steps previousMove
 
 part2 :: Int -> Int
 part2 n = value . fromJust
-            $ find (\x -> value x > n)
+            $ find (\x' -> value x' > n)
             $ generateSpiralGrid' (drop 1 $ generateSpiralGrid) [origin']
 
 generateSpiralGrid' :: [Point] -> [Square] -> [Square]
-generateSpiralGrid' (x:xs) prevSquares = newPoint : generateSpiralGrid' xs (newPoint : prevSquares)
-    where newPoint = (getNextSquare x prevSquares)
+generateSpiralGrid' [] _ = []
+generateSpiralGrid' (x':xs) prevSquares = newPoint : generateSpiralGrid' xs (newPoint : prevSquares)
+    where newPoint = (getNextSquare x' prevSquares)
 
 getNextSquare :: Point -> [Square] -> Square
 getNextSquare p prev = Square { point = p

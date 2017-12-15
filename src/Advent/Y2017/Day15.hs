@@ -6,8 +6,11 @@ import Text.Read (readMaybe)
 
 type Generator = Int -> Int
 
+factors, moduli :: (Int, Int)
 factors = (16807, 48271)
 moduli  = (4, 8)
+
+divisor :: Int
 divisor = 2147483647
 
 day15a, day15b :: String -> String
@@ -40,6 +43,8 @@ next2 factor modulus prev
   | otherwise               = next2 factor modulus next
   where next = (prev * factor) `mod` divisor
 
+-- >>> parse "Generator A starts with 123\nGenerator B starts with 456"
+-- (123,456)
 parse :: String -> (Int, Int)
 parse input = (a, b)
   where (a:b:_) = [fromJust x | x <- map readMaybe $ words input, isJust x]

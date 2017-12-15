@@ -20,6 +20,7 @@ day07a, day07b :: String -> String
 day07a input = solve $ towerFromInput input
 day07b input = show $ solve' $ towerFromInput input
 
+towerFromInput :: String -> Tower
 towerFromInput input = buildTower $ Map.fromList $ map (\x -> (name x, x)) programList
     where programList = map parseLine $ lines input
 
@@ -42,13 +43,13 @@ findUnbalancedTower tree
     where unbalancedSubtree = findUnbalancedSubtree tree
 
 findUnbalancedSubtree :: Tower -> Maybe (Tower)
-findUnbalancedSubtree (Node root subtrees)
+findUnbalancedSubtree (Node _ subtrees)
     | length unbalancedSubTrees == 0 = Nothing
-    | length unbalancedSubTrees == 1 = let (weight, tree) = (head unbalancedSubTrees) in Just tree
+    | length unbalancedSubTrees == 1 = let (_, tree) = (head unbalancedSubTrees) in Just tree
     | otherwise                      = error "Multiple unbalanced subtrees"
     where weightedTrees     = map (\x -> (treeWeight x, x)) subtrees
           weights           = map fst weightedTrees
-          unbalancedSubTrees = filter (\(w, t) -> length (elemIndices w weights) == 1) weightedTrees
+          unbalancedSubTrees = filter (\(w, _) -> length (elemIndices w weights) == 1) weightedTrees
 
 treeWeight :: Tower -> Int
 treeWeight (Node program subtrees) = (weight program) + (sum $ map treeWeight subtrees)
@@ -60,14 +61,14 @@ buildTower towerMap = maximumBy (comparing towerDepth) allSubtowers
 
 buildSubtower :: Map String Program -> Program -> Tower
 buildSubtower programMap program  = Node program subtowers
-    where findProgram name = fromJust $ Map.lookup name programMap
-          subtowers        = map (\name -> buildSubtower programMap (findProgram name) ) (children program)
+    where findProgram name' = fromJust $ Map.lookup name' programMap
+          subtowers        = map (\name' -> buildSubtower programMap (findProgram name') ) (children program)
 
 parseLine :: String -> Program
-parseLine str = Program name weight children
-    where ((name:weight':_):children') = map words $ splitOn "->" str
-          weight = read $ filter isDigit weight' :: Int
-          children = map (filter isAlpha) $ concat children'
+parseLine str = Program name' weight'' children''
+    where ((name':weight':_):children') = map words $ splitOn "->" str
+          weight'' = read $ filter isDigit weight' :: Int
+          children'' = map (filter isAlpha) $ concat children'
 
 -- Tree helpers
 
@@ -76,9 +77,10 @@ findSubtreeByLabel tree label = fromJust $ find matchingLabel (subForest tree)
     where matchingLabel subtree = rootLabel subtree == label
 
 parent :: Tower -> Program -> Tower
-parent fullTree@(Node root subtrees) searchNode
+parent fullTree searchNode
     | length path == 2 = fullTree
     | length path >= 2 = parent (findSubtreeByLabel fullTree nextNode) searchNode
+    | otherwise        = error "Expected path length to be at least 2"
     where path = head $ pathsToNode searchNode fullTree
           nextNode = head $ drop 1 path
 

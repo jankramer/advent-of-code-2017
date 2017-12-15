@@ -11,10 +11,10 @@ parse [] _ score = score
 parse ('!':_:xs) zs score = parse xs zs score
 
 -- Close garbage group
-parse ('>':xs) (('<':ys):zs) score = parse xs zs score
+parse ('>':xs) (('<':_):zs) score = parse xs zs score
 
 -- Ignore any other characters within garbage group
-parse (_:xs) all@(('<':ys):zs) (score, count) = parse xs all (score, count + 1)
+parse (_:xs) a@(('<':_):_) (score, count) = parse xs a (score, count + 1)
 
 -- Open garbage group
 parse ('<':xs) ys score = parse xs ("<":ys) score
@@ -23,7 +23,7 @@ parse ('<':xs) ys score = parse xs ("<":ys) score
 parse ('{':xs) ys score = parse xs ("{":ys) score
 
 -- Close group when current group starts with '{'
-parse ('}':xs) (('{':ys):zs) (score, count) =
+parse ('}':xs) (('{':_):zs) (score, count) =
     parse xs zs ((score + 1 + (length zs)), count)
 
 -- Ignore the rest

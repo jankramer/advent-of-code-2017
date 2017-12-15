@@ -1,8 +1,6 @@
 module Advent.Y2017.Day06 (day06a, day06b) where
 
-import              Data.Foldable
 import              Data.Maybe
-import              Data.Ord
 import              Data.List
 import              Data.Sequence (Seq)
 import qualified    Data.Sequence as Sequence
@@ -30,7 +28,8 @@ readInitialAllocation input = Sequence.mapWithIndex (\i x -> MemoryBank i x) (Se
     where numBlocks = map read $ words input
 
 pushNextReallocation :: ReallocationStack -> ReallocationStack
-pushNextReallocation all@(current:previousAllocations) = (reallocate current) : all
+pushNextReallocation [] = error "Unable to push on empty stack"
+pushNextReallocation a@(current:_) = (reallocate current) : a
 
 reallocate :: BlockAllocation -> BlockAllocation
 reallocate alloc = redistBlocks initial maxBankValue ((maxBankIndex+1) `mod` (length alloc))
@@ -41,7 +40,7 @@ redistBlocks :: BlockAllocation -> NumBlocks -> Int -> BlockAllocation
 redistBlocks currentAlloc remainingBlocks position
     | remainingBlocks == 0 = currentAlloc
     | otherwise            = redistBlocks nextAlloc (remainingBlocks-1) ((position + 1) `mod` length currentAlloc)
-    where nextValue = let (MemoryBank i x) = Sequence.index currentAlloc position in succ x
+    where nextValue = let (MemoryBank _ x) = Sequence.index currentAlloc position in succ x
           nextAlloc = Sequence.update position (MemoryBank position nextValue) currentAlloc
 
 headReoccurs :: Eq a => [a] -> Bool
