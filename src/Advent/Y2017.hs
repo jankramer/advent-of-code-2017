@@ -14,6 +14,7 @@ import Advent.Y2017.Day11
 import Advent.Y2017.Day12
 import Advent.Y2017.Day13
 import Advent.Y2017.Day14
+import Advent.Y2017.Day15
 
 solve17 :: Int -> Char -> String -> String
 solve17  1 'a' = day01a
@@ -44,3 +45,5 @@ solve17 13 'a' = day13a
 solve17 13 'b' = day13b
 solve17 14 'a' = day14a
 solve17 14 'b' = day14b
+solve17 15 'a' = day15a
+solve17 15 'b' = day15b
