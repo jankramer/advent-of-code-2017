@@ -19,6 +19,7 @@ import Advent.Y2017.Day16
 import Advent.Y2017.Day17
 import Advent.Y2017.Day18
 import Advent.Y2017.Day19
+import Advent.Y2017.Day20
 
 solve17 :: Int -> Char -> String -> String
 solve17  1 'a' = day01a
@@ -59,4 +60,6 @@ solve17 18 'a' = day18a
 solve17 18 'b' = day18b
 solve17 19 'a' = day19a
 solve17 19 'b' = day19b
+solve17 20 'a' = day20a
+solve17 20 'b' = day20b
 solve17 _   _  = error "Not implemented yet"
